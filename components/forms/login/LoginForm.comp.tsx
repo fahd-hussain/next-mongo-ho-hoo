@@ -1,20 +1,17 @@
 import { Form, Formik, FormikHelpers } from 'formik'
 import { FC, KeyboardEvent } from 'react'
-import { IRegistrationPayloadProps } from '../../../types/registration.types'
+import { ILoginPayloadProps } from '../../../types/login.types'
 import {
-  ARFContainer,
-  ARFInput,
-  ARFInputBody,
-  ARFInputContainer,
-  ARFInputHeader,
-  ARFSubmitButton,
-} from './registrationForm.styles'
-import { registrationFormValidationSchema } from './registrationForm.validations'
+  ALFContainer,
+  ALFInput,
+  ALFInputBody,
+  ALFInputContainer,
+  ALFInputHeader,
+  ALFSubmitButton,
+} from './loginForm.styles'
+import { loginFormValidationSchema } from './loginForm.validations'
 
-const RegistrationForm: FC<RegistrationFormProps> = ({
-  initialValues,
-  onSubmit,
-}) => {
+const LoginForm: FC<LoginFormProps> = ({ initialValues, onSubmit }) => {
   const _handleEnterKeyDown = (
     event: KeyboardEvent<HTMLDivElement>,
     handleSubmit: () => void
@@ -27,12 +24,12 @@ const RegistrationForm: FC<RegistrationFormProps> = ({
   }
 
   return (
-    <ARFContainer>
-      <ARFInputContainer>
-        <ARFInputHeader>Register</ARFInputHeader>
+    <ALFContainer>
+      <ALFInputContainer>
+        <ALFInputHeader>Login</ALFInputHeader>
         <Formik
           initialValues={initialValues}
-          validationSchema={registrationFormValidationSchema}
+          validationSchema={loginFormValidationSchema}
           onSubmit={onSubmit}
         >
           {({
@@ -44,8 +41,8 @@ const RegistrationForm: FC<RegistrationFormProps> = ({
             handleSubmit,
           }) => (
             <Form>
-              <ARFInputBody>
-                <ARFInput
+              <ALFInputBody>
+                <ALFInput
                   className="_login_form_body_input"
                   name="email"
                   label="Email"
@@ -57,7 +54,7 @@ const RegistrationForm: FC<RegistrationFormProps> = ({
                   autoFocus
                   variant="filled"
                 />
-                <ARFInput
+                <ALFInput
                   className="_login_form_body_input"
                   name="password"
                   label="Password"
@@ -74,28 +71,28 @@ const RegistrationForm: FC<RegistrationFormProps> = ({
                     _handleEnterKeyDown(event, handleSubmit)
                   }
                 />
-                <ARFSubmitButton
+                <ALFSubmitButton
                   variant="outlined"
                   className="_Login_form_body_submit_btn"
                   onClick={() => handleSubmit()}
                 >
                   Submit
-                </ARFSubmitButton>
-              </ARFInputBody>
+                </ALFSubmitButton>
+              </ALFInputBody>
             </Form>
           )}
         </Formik>
-      </ARFInputContainer>
-    </ARFContainer>
+      </ALFInputContainer>
+    </ALFContainer>
   )
 }
 
-export default RegistrationForm
+export default LoginForm
 
-interface RegistrationFormProps {
-  initialValues: IRegistrationPayloadProps
+interface LoginFormProps {
+  initialValues: ILoginPayloadProps
   onSubmit: (
-    _values: IRegistrationPayloadProps,
-    _helpers: FormikHelpers<IRegistrationPayloadProps>
+    _values: ILoginPayloadProps,
+    _helpers: FormikHelpers<ILoginPayloadProps>
   ) => void
 }
