@@ -1,38 +1,34 @@
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
+import { getAuth } from 'firebase/auth'
 import { FormikHelpers } from 'formik'
-import { FC, useState } from 'react'
+import { FC } from 'react'
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import RegistrationForm from '../../components/forms/registration/RegistrationForm.comp'
 import { IRegistrationPayloadProps } from '../../types/registration.types'
-const RegisterPage: FC<RegisterPageProps> = () => {
-  const [error, setError] = useState<null | string>(null)
 
+const RegisterPage: FC<RegisterPageProps> = () => {
   const initialValues: IRegistrationPayloadProps = { email: '', password: '' }
 
   const auth = getAuth()
+  // eslint-disable-next-line no-unused-vars
+  const [createUserWithEmailAndPassword, _user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth)
 
   const _handleRegister = (
     { email, password }: IRegistrationPayloadProps,
     { resetForm }: FormikHelpers<IRegistrationPayloadProps>
   ) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user
-        console.log(user)
-      })
-      .catch((error) => {
-        // const errorCode = error.code
-        const errorMessage = error.message
-        setError(errorMessage)
-      })
-      .finally(() => {
-        resetForm()
-      })
+    createUserWithEmailAndPassword(email, password).finally(() => resetForm())
+  }
+
+  if (error) {
+    return <>Error</>
   }
 
   return (
     <RegistrationForm
       initialValues={initialValues}
       onSubmit={_handleRegister}
+      isLoading={loading}
     />
   )
 }

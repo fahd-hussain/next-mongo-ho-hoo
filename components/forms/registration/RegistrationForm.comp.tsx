@@ -14,6 +14,7 @@ import { registrationFormValidationSchema } from './registrationForm.validations
 const RegistrationForm: FC<RegistrationFormProps> = ({
   initialValues,
   onSubmit,
+  isLoading,
 }) => {
   const _handleEnterKeyDown = (
     event: KeyboardEvent<HTMLDivElement>,
@@ -78,6 +79,7 @@ const RegistrationForm: FC<RegistrationFormProps> = ({
                   variant="outlined"
                   className="_Login_form_body_submit_btn"
                   onClick={() => handleSubmit()}
+                  disabled={isLoading}
                 >
                   Submit
                 </ARFSubmitButton>
@@ -98,4 +100,5 @@ interface RegistrationFormProps {
     _values: IRegistrationPayloadProps,
     _helpers: FormikHelpers<IRegistrationPayloadProps>
   ) => void
+  isLoading: boolean
 }

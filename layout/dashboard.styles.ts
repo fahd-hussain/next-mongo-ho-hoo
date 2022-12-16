@@ -4,7 +4,7 @@ export const DashboardContainer = styled('view')`
   text-align: center;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 90vh;
 
   margin-right: auto;
   margin-left: auto;

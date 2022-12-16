@@ -9,6 +9,7 @@ import {
   gray900,
   primary,
   primaryDark,
+  white,
 } from '../../constant/css-variables.const'
 
 export const SidebarContainer = styled('aside')<{ hide: boolean }>`
@@ -20,6 +21,9 @@ export const SidebarContainer = styled('aside')<{ hide: boolean }>`
   border-radius: ${borderRadiusSm};
   background-color: ${primary};
   text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   width: ${({ hide }) => (hide ? '5vw' : '20vw')};
 `
@@ -44,11 +48,9 @@ export const SidebarListItem = styled(ListItem)`
 `
 
 export const OpenSidebarIcon = styled(FiberManualRecordTwoTone)`
-  color: white;
-  margin: 10px 10px 0px 0px;
+  color: ${white};
 `
 
 export const CloseSidebarIcon = styled(Circle)`
-  color: white;
-  margin: 10px 10px 0px 0px;
+  color: ${white};
 `

@@ -11,7 +11,11 @@ import {
 } from './loginForm.styles'
 import { loginFormValidationSchema } from './loginForm.validations'
 
-const LoginForm: FC<LoginFormProps> = ({ initialValues, onSubmit }) => {
+const LoginForm: FC<LoginFormProps> = ({
+  initialValues,
+  onSubmit,
+  isLoading,
+}) => {
   const _handleEnterKeyDown = (
     event: KeyboardEvent<HTMLDivElement>,
     handleSubmit: () => void
@@ -75,6 +79,7 @@ const LoginForm: FC<LoginFormProps> = ({ initialValues, onSubmit }) => {
                   variant="outlined"
                   className="_Login_form_body_submit_btn"
                   onClick={() => handleSubmit()}
+                  disabled={isLoading}
                 >
                   Submit
                 </ALFSubmitButton>
@@ -95,4 +100,5 @@ interface LoginFormProps {
     _values: ILoginPayloadProps,
     _helpers: FormikHelpers<ILoginPayloadProps>
   ) => void
+  isLoading: boolean
 }
