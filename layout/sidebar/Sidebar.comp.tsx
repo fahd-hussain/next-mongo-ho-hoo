@@ -1,9 +1,7 @@
-import { getAuth } from 'firebase/auth'
-import { useSignOut } from 'react-firebase-hooks/auth'
-
 import DashboardIcon from '@mui/icons-material/DashboardTwoTone'
 import LogoutIcon from '@mui/icons-material/LogoutTwoTone'
 import { FC } from 'react'
+import { useLogout } from '../../hooks/useLogout'
 import {
   CloseSidebarIcon,
   OpenSidebarIcon,
@@ -13,16 +11,7 @@ import {
 } from './sidebar.styles'
 
 const SideBar: FC<SideBarProps> = ({ hide, handleToggleSidebar }) => {
-  const auth = getAuth()
-  const [signOut, loading, error] = useSignOut(auth)
-
-  if (loading) {
-    return <>Loading</>
-  }
-
-  if (error) {
-    return <>Error</>
-  }
+  const [handleLogout] = useLogout()
 
   return (
     <SidebarContainer hide={hide}>
@@ -39,7 +28,7 @@ const SideBar: FC<SideBarProps> = ({ hide, handleToggleSidebar }) => {
 
       <SidebarList>
         <SidebarListItem>
-          <LogoutIcon onClick={() => signOut()} />
+          <LogoutIcon onClick={() => handleLogout()} />
         </SidebarListItem>
       </SidebarList>
     </SidebarContainer>

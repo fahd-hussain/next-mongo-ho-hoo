@@ -1,4 +1,6 @@
 import { FC, useState } from 'react'
+
+import { useAuthContext } from '../hooks/useAuthContext.hook'
 import {
   DashboardContainer,
   LayoutContent,
@@ -9,9 +11,14 @@ import Header from './header/Header.comp'
 import SideBar from './sidebar/Sidebar.comp'
 
 const DashboardLayout: FC<DashboardLayoutProps> = ({ children }) => {
+  const { isAuthenticated } = useAuthContext()
   const [hide, setHide] = useState<boolean>(false)
 
   const _handleToggleSidebar = () => setHide((prevState) => !prevState)
+
+  if (!isAuthenticated) {
+    return <>{children}</>
+  }
 
   return (
     <DashboardContainer>

@@ -1,29 +1,28 @@
-import { getAuth } from 'firebase/auth'
 import { FormikHelpers } from 'formik'
 import { FC } from 'react'
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import LoginForm from '../../components/forms/login/LoginForm.comp'
-import { ILoginPayloadProps } from '../../types/login.types'
+import { useLogin } from '../../hooks/useLogin.hook'
+import { ILoginPayloadProps } from '../../types/authentication.types'
 
 const LoginPage: FC<LoginPageProps> = () => {
-  const initialValues: ILoginPayloadProps = { email: '', password: '' }
+  const [handleLogin, loading, error] = useLogin()
 
-  const auth = getAuth()
-  // eslint-disable-next-line no-unused-vars
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth)
+  const initialValues: ILoginPayloadProps = {
+    email: 'fahd_hosen@outlook.com',
+    password: 'Abcd1234!!',
+  }
 
   const _handleLogin = (
-    { email, password }: ILoginPayloadProps,
+    credential: ILoginPayloadProps,
     { resetForm }: FormikHelpers<ILoginPayloadProps>
   ) => {
-    signInWithEmailAndPassword(email, password).finally(() => {
+    handleLogin(credential).finally(() => {
       resetForm()
     })
   }
 
   if (error) {
-    return <>Error</>
+    return <>{error}</>
   }
 
   return (

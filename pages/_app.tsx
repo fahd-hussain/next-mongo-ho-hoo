@@ -1,8 +1,7 @@
 import { CacheProvider } from '@emotion/react'
 import { CssBaseline, ThemeProvider } from '@mui/material'
-import { getAuth } from 'firebase/auth'
-import { useAuthState } from 'react-firebase-hooks/auth'
 
+import { AuthProvider } from '../contexts/authentication.context'
 import { initializeFirebase } from '../firebase/firebaseApp'
 import DashboardLayout from '../layout/Dashboard.layout'
 import lightTheme from '../styles/theme'
@@ -13,25 +12,16 @@ initializeFirebase()
 
 const MyApp = (props: any) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
-  const auth = getAuth()
-  const [user, loading] = useAuthState(auth)
-
-  if (loading) return <>Loading</>
 
   return (
     <CacheProvider value={emotionCache}>
       <ThemeProvider theme={lightTheme}>
-        {user ? (
+        <AuthProvider>
           <DashboardLayout>
             <CssBaseline />
             <Component {...pageProps} />
           </DashboardLayout>
-        ) : (
-          <>
-            <CssBaseline />
-            <Component {...pageProps} />
-          </>
-        )}
+        </AuthProvider>
       </ThemeProvider>
     </CacheProvider>
   )

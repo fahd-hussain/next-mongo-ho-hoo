@@ -1,10 +1,12 @@
 import { styled } from '@mui/material/styles'
+import { borderRadiusSm, gray400 } from '../constant/css-variables.const'
 
 export const DashboardContainer = styled('view')`
   text-align: center;
   display: flex;
   flex-direction: column;
-  min-height: 90vh;
+  min-height: 100vh;
+  // height: 100% - 100px;
 
   margin-right: auto;
   margin-left: auto;
@@ -18,6 +20,9 @@ export const LayoutContent = styled('div')`
   flex: 1;
 `
 export const PageContainer = styled('main')`
-  padding: 20px;
-  width: 80vw;
+  margin: 20px;
+  height: auto;
+  width: 100vw;
+  border: 1px solid ${gray400};
+  border-radius: ${borderRadiusSm};
 `

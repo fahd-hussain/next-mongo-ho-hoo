@@ -1,6 +1,6 @@
 import { Form, Formik, FormikHelpers } from 'formik'
 import { FC, KeyboardEvent } from 'react'
-import { ILoginPayloadProps } from '../../../types/login.types'
+import { ILoginPayloadProps } from '../../../types/authentication.types'
 import {
   ALFContainer,
   ALFInput,

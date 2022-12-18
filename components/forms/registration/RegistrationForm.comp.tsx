@@ -1,6 +1,6 @@
 import { Form, Formik, FormikHelpers } from 'formik'
 import { FC, KeyboardEvent } from 'react'
-import { IRegistrationPayloadProps } from '../../../types/registration.types'
+import { IRegistrationPayloadProps } from '../../../types/authentication.types'
 import {
   ARFContainer,
   ARFInput,
