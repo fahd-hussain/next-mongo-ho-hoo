@@ -1,6 +1,7 @@
 import { FC, createContext, useEffect, useReducer } from 'react'
 import { useCookies } from 'react-cookie'
 
+import { useRouter } from 'next/router'
 import {
   AuthContextType,
   IAuthInitialStateType,
@@ -12,6 +13,7 @@ export const AuthContext = createContext<AuthContextType | null>(null)
 export const AuthProvider: FC<IAuthProviderType> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, authInitialState)
   const [cookie] = useCookies(['token'])
+  const { replace } = useRouter()
 
   useEffect(() => {
     if (cookie.token) {
@@ -19,7 +21,9 @@ export const AuthProvider: FC<IAuthProviderType> = ({ children }) => {
         type: 'login',
         token: cookie.token,
       })
+      replace('/application')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cookie])
 
   return (

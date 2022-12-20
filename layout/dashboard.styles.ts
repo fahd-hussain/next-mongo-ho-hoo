@@ -1,12 +1,12 @@
+import { Box } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { borderRadiusSm, gray400 } from '../constant/css-variables.const'
 
-export const DashboardContainer = styled('view')`
+export const DashboardContainer = styled(Box)`
   text-align: center;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  // height: 100% - 100px;
 
   margin-right: auto;
   margin-left: auto;
@@ -15,7 +15,7 @@ export const DashboardContainer = styled('view')`
     padding: 0 30px;
   }
 `
-export const LayoutContent = styled('div')`
+export const LayoutContent = styled(Box)`
   display: flex;
   flex: 1;
 `

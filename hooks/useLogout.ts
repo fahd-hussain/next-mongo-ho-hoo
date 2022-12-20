@@ -18,9 +18,9 @@ export const useLogout = (): [() => Promise<any>, boolean, string | null] => {
     setLoading(true)
     signOut(auth)
       .then(() => {
-        replace('authentication/login')
-        dispatch({ type: 'logout' })
         removeCookie('token')
+        dispatch({ type: 'logout' })
+        replace('authentication/login')
       })
       .catch((error: any) => {
         setError(error.message ? error.message : 'Something went wrong')

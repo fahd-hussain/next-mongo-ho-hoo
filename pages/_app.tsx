@@ -1,6 +1,7 @@
-import { CacheProvider } from '@emotion/react'
+import { CacheProvider, EmotionCache } from '@emotion/react'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 
+import { AppProps } from 'next/app'
 import { AuthProvider } from '../contexts/authentication.context'
 import { initializeFirebase } from '../firebase/firebaseApp'
 import DashboardLayout from '../layout/Dashboard.layout'
@@ -10,7 +11,11 @@ import createEmotionCache from '../utils/createEmotionCache.util'
 const clientSideEmotionCache = createEmotionCache()
 initializeFirebase()
 
-const MyApp = (props: any) => {
+interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache
+}
+
+const MyApp = (props: MyAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
   return (
