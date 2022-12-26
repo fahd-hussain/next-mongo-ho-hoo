@@ -13,11 +13,11 @@ export interface AuthContextType extends IAuthInitialStateType {
 }
 
 export interface ILoginPayloadProps {
-  email: string
+  username: string
   password: string
 }
 
 export interface IRegistrationPayloadProps {
-  email: string
+  username: string
   password: string
 }

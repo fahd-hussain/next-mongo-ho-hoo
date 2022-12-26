@@ -1,10 +1,9 @@
 import * as yup from 'yup'
 
 export const registrationFormValidationSchema = yup.object().shape({
-  email: yup
+  username: yup
     .string()
-    .email('Invalid email')
-    .required("'Email' can not be empty")
+    .required("'Username' can not be empty")
     .max(255, 'Must be 255 characters or less'),
   password: yup
     .string()

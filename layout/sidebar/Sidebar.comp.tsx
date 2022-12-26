@@ -1,7 +1,7 @@
 import DashboardIcon from '@mui/icons-material/DashboardTwoTone'
 import LogoutIcon from '@mui/icons-material/LogoutTwoTone'
 import { FC } from 'react'
-import { useLogout } from '../../hooks/useLogout'
+import { useLogout } from '../../hooks/useLogout.hook'
 import {
   CloseSidebarIcon,
   OpenSidebarIcon,

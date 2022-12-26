@@ -1,8 +1,7 @@
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { useCallback, useState } from 'react'
 import { useCookies } from 'react-cookie'
 
-import { useRouter } from 'next/router'
+import commonAxios from '../common/axios.common'
 import { IRegistrationPayloadProps } from '../types/authentication.types'
 import { useAuthContext } from './useAuthContext.hook'
 
@@ -15,31 +14,26 @@ export const useRegister = (): [
   const [error, setError] = useState<string | null>(null)
 
   const { dispatch } = useAuthContext()
-  const auth = getAuth()
-  const { replace } = useRouter()
   // eslint-disable-next-line no-unused-vars
   const [cookie, setCookie] = useCookies(['token'])
 
   const handleRegister = useCallback(
-    async ({ email, password }: IRegistrationPayloadProps) => {
+    async (data: IRegistrationPayloadProps) => {
       setLoading(true)
       try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        )
-        const token = await userCredential.user.getIdToken()
-        setCookie('token', JSON.stringify(token), {
-          path: '/',
-          maxAge: 3600, // Expires after 1hr
-          sameSite: true,
-        })
-        dispatch({
-          type: 'register',
-          token,
-        })
-        replace('/application')
+        const response = await commonAxios.post('/authentication/signup', data)
+        if (response.data.success) {
+          const token = response.data.token
+          setCookie('token', JSON.stringify(token), {
+            path: '/',
+            maxAge: 3600, // Expires after 1hr
+            sameSite: true,
+          })
+          dispatch({
+            type: 'register',
+            token,
+          })
+        }
       } catch (error: any) {
         setError(error.message ? error.message : 'Something went wrong')
       } finally {

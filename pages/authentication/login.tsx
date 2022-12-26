@@ -8,7 +8,7 @@ const LoginPage: FC<LoginPageProps> = () => {
   const [handleLogin, loading, error] = useLogin()
 
   const initialValues: ILoginPayloadProps = {
-    email: 'fahd_hosen@outlook.com',
+    username: 'fahd_hosen@outlook.com',
     password: 'Abcd1234!!',
   }
 

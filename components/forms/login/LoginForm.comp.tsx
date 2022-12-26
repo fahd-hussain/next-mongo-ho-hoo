@@ -48,13 +48,15 @@ const LoginForm: FC<LoginFormProps> = ({
               <ALFInputBody>
                 <ALFInput
                   className="_login_form_body_input"
-                  name="email"
-                  label="Email"
+                  name="username"
+                  label="Username"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.email}
-                  error={Boolean(errors.email && touched.email)}
-                  helperText={errors.email && touched.email ? errors.email : ''}
+                  value={values.username}
+                  error={Boolean(errors.username && touched.username)}
+                  helperText={
+                    errors.username && touched.username ? errors.username : ''
+                  }
                   autoFocus
                   variant="filled"
                 />
