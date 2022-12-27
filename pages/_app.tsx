@@ -2,11 +2,13 @@ import { CacheProvider, EmotionCache } from '@emotion/react'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 
 import { AppProps } from 'next/app'
+import { SWRConfig } from 'swr/_internal'
 import { AuthProvider } from '../contexts/authentication.context'
 import { initializeFirebase } from '../firebase/firebaseApp'
 import DashboardLayout from '../layout/Dashboard.layout'
 import lightTheme from '../styles/theme'
 import createEmotionCache from '../utils/createEmotionCache.util'
+import { getRequest } from '../utils/requestHandler.util'
 
 const clientSideEmotionCache = createEmotionCache()
 initializeFirebase()
@@ -24,7 +26,13 @@ const MyApp = (props: MyAppProps) => {
         <AuthProvider>
           <DashboardLayout>
             <CssBaseline />
-            <Component {...pageProps} />
+            <SWRConfig
+              value={{
+                fetcher: getRequest,
+              }}
+            >
+              <Component {...pageProps} />
+            </SWRConfig>
           </DashboardLayout>
         </AuthProvider>
       </ThemeProvider>

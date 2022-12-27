@@ -1,6 +1,9 @@
+import CategoryIcon from '@mui/icons-material/Category'
 import DashboardIcon from '@mui/icons-material/DashboardTwoTone'
 import LogoutIcon from '@mui/icons-material/LogoutTwoTone'
 import { FC } from 'react'
+
+import Link from 'next/link'
 import { useLogout } from '../../hooks/useLogout.hook'
 import {
   CloseSidebarIcon,
@@ -21,14 +24,24 @@ const SideBar: FC<SideBarProps> = ({ hide, handleToggleSidebar }) => {
         ) : (
           <CloseSidebarIcon onClick={handleToggleSidebar} />
         )}
-        <SidebarListItem>
-          <DashboardIcon />
-        </SidebarListItem>
+        <Link href="/application">
+          <SidebarListItem>
+            <DashboardIcon />
+            <span>Dashboard</span>
+          </SidebarListItem>
+        </Link>
+        <Link href="/application/category">
+          <SidebarListItem>
+            <CategoryIcon />
+            <span>Category</span>
+          </SidebarListItem>
+        </Link>
       </SidebarList>
 
       <SidebarList>
-        <SidebarListItem>
-          <LogoutIcon onClick={() => handleLogout()} />
+        <SidebarListItem onClick={() => handleLogout()}>
+          <LogoutIcon />
+          Logout
         </SidebarListItem>
       </SidebarList>
     </SidebarContainer>
