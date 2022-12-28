@@ -11,16 +11,18 @@ import {
 
 export const ALFContainer = styled(Box)`
   display: flex;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   height: 100vh;
   background: -webkit-linear-gradient(130deg, ${primaryLight}, ${primary});
   background: linear-gradient(130deg, ${primaryLight}, ${primary});
 `
 export const ALFInputContainer = styled(Box)`
+  width: 50vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   padding: 20px;
   box-shadow: 2px 2px 20px 0px ${gray900};
   border-radius: ${borderRadiusSm};
@@ -44,7 +46,17 @@ export const ALFInput = styled(TextField)`
   margin-bottom: 20px;
 `
 
-export const ALFSubmitButton = styled(Button)`
+export const ALFSubmitButton = styled(Button)<ALFSubmitButtonProps>`
   color: ${white};
   background-color: ${primary};
+
+  ${({ isLoading }) =>
+    isLoading &&
+    `
+    color: ${primary};
+    background: ${white};
+  `}
 `
+interface ALFSubmitButtonProps {
+  isLoading: boolean
+}

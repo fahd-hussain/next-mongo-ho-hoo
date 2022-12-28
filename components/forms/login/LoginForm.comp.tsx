@@ -1,5 +1,6 @@
 import { Form, Formik, FormikHelpers } from 'formik'
 import { FC, KeyboardEvent } from 'react'
+import { SLoader } from '../../../styles/components/SLoader'
 import { ILoginPayloadProps } from '../../../types/authentication.types'
 import {
   ALFContainer,
@@ -82,8 +83,17 @@ const LoginForm: FC<LoginFormProps> = ({
                   className="_Login_form_body_submit_btn"
                   onClick={() => handleSubmit()}
                   disabled={isLoading}
+                  isLoading={isLoading}
                 >
-                  Submit
+                  Submit{' '}
+                  {isLoading ? (
+                    <SLoader
+                      size={20}
+                      style={{
+                        margin: '0px 20px',
+                      }}
+                    />
+                  ) : null}
                 </ALFSubmitButton>
               </ALFInputBody>
             </Form>
