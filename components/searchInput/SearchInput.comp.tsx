@@ -18,7 +18,8 @@ const SearchInput = ({ handleSearch }: SearchInputProps) => {
     return () => {
       clearTimeout(apiCallTimeout)
     }
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text])
 
   return (
     <SIContainer>
