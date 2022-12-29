@@ -1,5 +1,5 @@
 import Skeleton from '@mui/material/Skeleton'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 
 import PaginationController from '../../components/paginationController/PaginationController.comp'
@@ -25,29 +25,33 @@ const PAGE_SIZE = process.env.NEXT_PUBLIC_DATA_SIZE || 5
 
 const CategoryPage = () => {
   const [pageNumber, setPageNumber] = useState<number>(1)
-  const [url, setUrl] = useState<string>(() =>
-    appendQueryToURL('/category', { pageNumber, pageSize: PAGE_SIZE })
-  )
+  const [name, setName] = useState<string>('')
+  const [url, setUrl] = useState<string>('')
 
   const { data, isLoading } = useSWR(url)
 
   const _handlePageChange = (prev?: boolean) => {
     if (prev && pageNumber > 1) {
       setPageNumber(pageNumber - 1)
-    } else if (pageNumber < data?.pagination?.totalRecords / +PAGE_SIZE) {
+    } else if (
+      !prev &&
+      pageNumber < data?.pagination?.totalRecords / +PAGE_SIZE
+    ) {
       setPageNumber(pageNumber + 1)
     }
   }
 
-  const _handleSearch = (text: string) => {
+  const _handleSearch = (text: string) => setName(text)
+
+  useEffect(() => {
     setUrl(
       appendQueryToURL('/category', {
         pageNumber,
+        name,
         pageSize: PAGE_SIZE,
-        name: text,
       })
     )
-  }
+  }, [pageNumber, name])
 
   return (
     <CategoryContainer>
