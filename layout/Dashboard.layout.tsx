@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic'
 import { FC, useState } from 'react'
 
 import { useAuthContext } from '../hooks/useAuthContext.hook'
@@ -6,9 +7,10 @@ import {
   LayoutContent,
   PageContainer,
 } from './dashboard.styles'
-import Footer from './footer/Footer.comp'
-import Header from './header/Header.comp'
-import SideBar from './sidebar/Sidebar.comp'
+
+const Footer = dynamic(() => import('./footer/Footer.comp'))
+const Header = dynamic(() => import('./header/Header.comp'))
+const SideBar = dynamic(() => import('./sidebar/Sidebar.comp'))
 
 const DashboardLayout: FC<DashboardLayoutProps> = ({ children }) => {
   const { isAuthenticated } = useAuthContext()
