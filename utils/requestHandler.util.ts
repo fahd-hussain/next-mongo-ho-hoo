@@ -7,3 +7,9 @@ export const getRequest = async (url: string) => {
     ? { document: response.data.data, pagination: response.data.pagination }
     : {}
 }
+
+export const postRequest = async (url: string, body: any) => {
+  const response = await commonAxios.post(url, body)
+
+  return response.data.success ? { document: response.data.data } : {}
+}

@@ -5,5 +5,5 @@
     "source.fixAll": true,
     "source.organizeImports": true
   },
-  "cSpell.words": ["Formik"]
+  "cSpell.words": ["formbar", "Formik"]
 }

@@ -6,3 +6,5 @@ export interface ICategoryInterface {
   description: string
   author: IUserInterface
 }
+
+export type ICategoryFormType = Pick<ICategoryInterface, 'name' | 'description'>
