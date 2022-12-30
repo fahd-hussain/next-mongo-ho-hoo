@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic'
 import { FC, useState } from 'react'
 
+import { useRouter } from 'next/router'
 import { useAuthContext } from '../hooks/useAuthContext.hook'
 import { IModalInitialStateInterface } from '../types/formBar.types'
 import {
@@ -20,9 +21,11 @@ const DashboardLayout: FC<DashboardLayoutProps> = ({ children }) => {
   const { isAuthenticated } = useAuthContext()
   const [hide, setHide] = useState<boolean>(false)
 
+  const { pathname } = useRouter()
+
   const _handleToggleSidebar = () => setHide((prevState) => !prevState)
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || pathname.includes('/authentication')) {
     return <>{children}</>
   }
 
