@@ -1,5 +1,6 @@
 import { Form, Formik, FormikHelpers } from 'formik'
 import { FC, KeyboardEvent } from 'react'
+import { SButton } from '../../../styles/components/SButton'
 import { SLoader } from '../../../styles/components/SLoader'
 import { IRegistrationPayloadProps } from '../../../types/authentication.types'
 import {
@@ -8,7 +9,6 @@ import {
   ARFInputBody,
   ARFInputContainer,
   ARFInputHeader,
-  ARFSubmitButton,
 } from './registrationForm.styles'
 import { registrationFormValidationSchema } from './registrationForm.validations'
 
@@ -78,12 +78,12 @@ const RegistrationForm: FC<RegistrationFormProps> = ({
                     _handleEnterKeyDown(event, handleSubmit)
                   }
                 />
-                <ARFSubmitButton
+                <SButton
                   variant="outlined"
                   className="_Login_form_body_submit_btn"
                   onClick={() => handleSubmit()}
                   disabled={isLoading}
-                  isLoading={isLoading}
+                  loading={+isLoading}
                 >
                   Submit{' '}
                   {isLoading ? (
@@ -94,7 +94,7 @@ const RegistrationForm: FC<RegistrationFormProps> = ({
                       }}
                     />
                   ) : null}
-                </ARFSubmitButton>
+                </SButton>
               </ARFInputBody>
             </Form>
           )}

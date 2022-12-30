@@ -1,5 +1,5 @@
 import { Button } from '@mui/material'
-import { styled } from '@mui/system'
+import { css, styled } from '@mui/system'
 import { primary, white } from '../../constant/css-variables.const'
 
 export const SButton = styled(Button)<SButtonProps>`
@@ -12,14 +12,15 @@ export const SButton = styled(Button)<SButtonProps>`
     background-color: ${white};
   }
 
-  ${({ isLoading }) =>
-    isLoading &&
-    `
-    color: ${primary};
-    background: ${white};
-  `}
+  ${({ loading }) =>
+    loading
+      ? css`
+          color: ${primary};
+          background: ${white};
+        `
+      : undefined}
 `
 
 interface SButtonProps {
-  isLoading?: boolean
+  loading?: 1 | 0
 }

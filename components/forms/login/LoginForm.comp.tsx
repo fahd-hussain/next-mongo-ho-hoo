@@ -1,6 +1,7 @@
 import { Form, Formik, FormikHelpers } from 'formik'
 import { FC, KeyboardEvent } from 'react'
 
+import { SButton } from '../../../styles/components/SButton'
 import { SLoader } from '../../../styles/components/SLoader'
 import { ILoginPayloadProps } from '../../../types/authentication.types'
 import {
@@ -9,7 +10,6 @@ import {
   ALFInputBody,
   ALFInputContainer,
   ALFInputHeader,
-  ALFSubmitButton,
 } from './loginForm.styles'
 import { loginFormValidationSchema } from './loginForm.validations'
 
@@ -79,12 +79,12 @@ const LoginForm: FC<LoginFormProps> = ({
                     _handleEnterKeyDown(event, handleSubmit)
                   }
                 />
-                <ALFSubmitButton
+                <SButton
                   variant="outlined"
                   className="_Login_form_body_submit_btn"
                   onClick={() => handleSubmit()}
                   disabled={isLoading}
-                  isLoading={isLoading}
+                  loading={+isLoading}
                 >
                   Submit{' '}
                   {isLoading ? (
@@ -95,7 +95,7 @@ const LoginForm: FC<LoginFormProps> = ({
                       }}
                     />
                   ) : null}
-                </ALFSubmitButton>
+                </SButton>
               </ALFInputBody>
             </Form>
           )}

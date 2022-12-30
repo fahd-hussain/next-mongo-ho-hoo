@@ -37,7 +37,7 @@ const FormBar = forwardRef<FormBarRefInterface, FormBarProps>((_props, ref) => {
             <IconButton onClick={() => handleCloseFormBar()}>
               <CloseIcon />
             </IconButton>
-            <SHeading xl={1}>{state.heading}</SHeading>
+            <SHeading size="xl">{state.heading}</SHeading>
           </FormBarHeader>
           <SDivider />
           {state.children}

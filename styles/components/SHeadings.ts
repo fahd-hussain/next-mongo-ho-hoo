@@ -5,44 +5,28 @@ export const SHeading = styled(Typography)<SHeadingInterface>`
   display: block;
   width: 100%;
 
-  ${({ xl }) =>
-    xl &&
-    `
-  font-size: 2em;
-`}
+  font-size: ${({ size }) => _handleFontSize(size)};
 `
 
 interface SHeadingInterface {
-  xl?: boolean
+  size?: 'xxl' | 'xl' | 'lg' | 'sm' | 'xs' | 'xxs'
 }
-// h2?: any
-// h3?: any
-// h4?: any
-// h5?: any
-// h6?: any
 
-// ${({ h2 }) =>
-//       h2 &&
-//       css`
-//         font-size: 1.5em;
-//       `}
-//     ${({ h3 }) =>
-//       h3 &&
-//       css`
-//         font-size: 1.17em;
-//       `}
-//     ${({ h4 }) =>
-//       h4 &&
-//       css`
-//         font-size: 1em;
-//       `}
-//     ${({ h5 }) =>
-//       h5 &&
-//       css`
-//         font-size: 0.83em;
-//       `}
-//     ${({ h6 }) =>
-//       h6 &&
-//       css`
-//         font-size: 0.67em;
-//       `};
+const _handleFontSize = (size?: 'xxl' | 'xl' | 'lg' | 'sm' | 'xs' | 'xxs') => {
+  switch (size) {
+    case 'xxl':
+      return '2em'
+    case 'xl':
+      return '1.5em'
+    case 'lg':
+      return '1.17em'
+    case 'sm':
+      return '1em'
+    case 'xs':
+      return '0.83em'
+    case 'xxs':
+      return '0.67em'
+    default:
+      return '2em'
+  }
+}

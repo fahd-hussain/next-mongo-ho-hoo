@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Box, TextField, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import {
   bodyBg,
@@ -6,7 +6,6 @@ import {
   gray900,
   primary,
   primaryLight,
-  white,
 } from '../../../constant/css-variables.const'
 
 export const ARFContainer = styled(Box)`
@@ -45,19 +44,3 @@ export const ARFInputBody = styled(Box)`
 export const ARFInput = styled(TextField)`
   margin-bottom: 20px;
 `
-
-export const ARFSubmitButton = styled(Button)<ARFSubmitButtonProps>`
-  color: ${white};
-  background-color: ${primary};
-
-  ${({ isLoading }) =>
-    isLoading &&
-    `
-  color: ${primary};
-  background: ${white};
-`}
-`
-
-interface ARFSubmitButtonProps {
-  isLoading: boolean
-}
