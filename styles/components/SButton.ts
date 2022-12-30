@@ -22,5 +22,5 @@ export const SButton = styled(Button)<SButtonProps>`
 `
 
 interface SButtonProps {
-  loading?: 1 | 0
+  loading?: number
 }
