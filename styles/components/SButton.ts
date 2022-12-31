@@ -1,14 +1,19 @@
 import { Button } from '@mui/material'
 import { css, styled } from '@mui/system'
-import { primary, white } from '../../constant/css-variables.const'
+import {
+  danger,
+  primary,
+  warning,
+  white,
+} from '../../constant/css-variables.const'
 
 export const SButton = styled(Button)<SButtonProps>`
   color: ${white};
-  background-color: ${primary};
+  background: ${({ color_type }) => _handleBGColor(color_type)};
   width: inherit;
 
   &:hover {
-    color: ${primary};
+    color: ${({ color_type }) => _handleBGColor(color_type)};
     background-color: ${white};
   }
 
@@ -23,4 +28,18 @@ export const SButton = styled(Button)<SButtonProps>`
 
 interface SButtonProps {
   loading?: number
+  color_type?: 'primary' | 'warning' | 'danger'
+}
+
+const _handleBGColor = (color_type?: 'primary' | 'warning' | 'danger') => {
+  switch (color_type) {
+    case 'primary':
+      return primary
+    case 'warning':
+      return warning
+    case 'danger':
+      return danger
+    default:
+      return primary
+  }
 }

@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import SearchInput from '../../components/searchInput/SearchInput.comp'
 
 export default function Home() {
   return (
@@ -12,7 +11,6 @@ export default function Home() {
       </Head>
       <main>
         <div>Admin Console</div>
-        <SearchInput handleSearch={() => {}} />
       </main>
     </>
   )

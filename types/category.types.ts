@@ -7,4 +7,9 @@ export interface ICategoryInterface {
   author: IUserInterface
 }
 
-export type ICategoryFormType = Pick<ICategoryInterface, 'name' | 'description'>
+export type ICategoryAddFormType = Pick<
+  ICategoryInterface,
+  'name' | 'description'
+> & { _id?: string }
+
+export type ICategoryEditFormType = ICategoryAddFormType & { _id: string }

@@ -1,7 +1,8 @@
 import Skeleton from '@mui/material/Skeleton'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 
+import { FormikHelpers } from 'formik'
 import CategoryForm from '../../components/forms/category/CategoryForm.comp'
 import PaginationController from '../../components/paginationController/PaginationController.comp'
 import SearchInput from '../../components/searchInput/SearchInput.comp'
@@ -21,11 +22,16 @@ import {
   CategoryHeader,
 } from '../../styles/pages/application/category.styles'
 import {
-  ICategoryFormType,
+  ICategoryAddFormType,
+  ICategoryEditFormType,
   ICategoryInterface,
 } from '../../types/category.types'
 import appendQueryToURL from '../../utils/appendQueryToURL.util'
-import { postRequest } from '../../utils/requestHandler.util'
+import {
+  deleteRequest,
+  patchRequest,
+  postRequest,
+} from '../../utils/requestHandler.util'
 
 const PAGE_SIZE = process.env.NEXT_PUBLIC_DATA_SIZE || 10
 
@@ -36,12 +42,10 @@ const CategoryPage = () => {
 
   const { data, isLoading, mutate } = useSWR(url)
 
-  const initialValues: ICategoryFormType = {
+  const initialValues: ICategoryAddFormType = {
     name: '',
     description: '',
   }
-
-  const containerRef = useRef<HTMLDivElement>(null)
 
   const _handlePageChange = (prev?: boolean) => {
     if (prev && pageNumber > 1) {
@@ -56,27 +60,43 @@ const CategoryPage = () => {
 
   const _handleSearch = (text: string) => setName(text)
 
-  const _handleSubmit = async (values: any, formikHelpers: any) => {
-    try {
-      mutate([values, ...data.document], {
-        rollbackOnError: true,
-        populateCache: true,
-      })
+  const _handleCreateCategory = async (
+    values: ICategoryAddFormType | ICategoryEditFormType,
+    formikHelpers: FormikHelpers<ICategoryAddFormType | ICategoryEditFormType>
+  ) => {
+    if ((values as ICategoryEditFormType)._id) {
+      await patchRequest(`/category/${values._id}`, values)
+    } else {
       await postRequest('/category', values)
-      formikHelpers.resetForm()
-      handleCloseForm()
-    } catch (error) {
-      console.log(error)
     }
+
+    mutate(undefined, {
+      revalidate: true,
+    })
+    formikHelpers.resetForm()
+    handleCloseForm()
   }
 
-  const _toggleOpenModal = () => {
+  const _handleOpenModal = (values?: ICategoryInterface) => {
     handleOpenForm({
       children: (
-        <CategoryForm initialValues={initialValues} onSubmit={_handleSubmit} />
+        <CategoryForm
+          initialValues={values ? values : initialValues}
+          onSubmit={_handleCreateCategory}
+        />
       ),
-      heading: 'Category Form',
+      heading: `${values ? 'Edit' : 'Create'} Category`,
     })
+  }
+
+  const _handleDeleteCategory = async (categoryId: string, index: number) => {
+    if (!data?.document) return
+
+    await deleteRequest(`/category/${categoryId}`)
+
+    const updatedData = [...data.document]
+    updatedData.splice(index, 1)
+    mutate(undefined, { revalidate: true })
   }
 
   useEffect(() => {
@@ -90,10 +110,10 @@ const CategoryPage = () => {
   }, [pageNumber, name])
 
   return (
-    <CategoryContainer ref={containerRef}>
+    <CategoryContainer>
       <CategoryHeader>
         <SearchInput handleSearch={_handleSearch} />
-        <SButton onClick={_toggleOpenModal}>Add Category</SButton>
+        <SButton onClick={() => _handleOpenModal()}>Add Category</SButton>
       </CategoryHeader>
       {isLoading ? (
         <Skeleton
@@ -110,21 +130,43 @@ const CategoryPage = () => {
                   <STableCell>Name</STableCell>
                   <STableCell>Description</STableCell>
                   <STableCell align="right">Author</STableCell>
+                  <STableCell align="right">Actions</STableCell>
                 </STableRow>
               </STableHead>
               <STableBody>
-                {data?.document?.map((row: ICategoryInterface) => (
-                  <STableRow
-                    key={row._id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <STableCell component="th" scope="row">
-                      {row.name}
-                    </STableCell>
-                    <STableCell>{row.description}</STableCell>
-                    <STableCell align="right">{row.author.username}</STableCell>
-                  </STableRow>
-                ))}
+                {data?.document?.map(
+                  (row: ICategoryInterface, index: number) => (
+                    <STableRow
+                      key={row._id}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <STableCell component="th" scope="row">
+                        {row.name}
+                      </STableCell>
+                      <STableCell>{row.description}</STableCell>
+                      <STableCell align="right">
+                        {row?.author?.username}
+                      </STableCell>
+                      <STableCell align="right">
+                        <SButton
+                          onClick={() => {
+                            _handleOpenModal(row)
+                          }}
+                        >
+                          Edit
+                        </SButton>
+                        <SButton
+                          color_type="danger"
+                          onClick={() => {
+                            _handleDeleteCategory(row._id, index)
+                          }}
+                        >
+                          Delete
+                        </SButton>
+                      </STableCell>
+                    </STableRow>
+                  )
+                )}
               </STableBody>
             </STable>
           </STableContainer>

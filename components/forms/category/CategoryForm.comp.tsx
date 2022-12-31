@@ -3,7 +3,10 @@ import { FC } from 'react'
 
 import { SButton } from '../../../styles/components/SButton'
 import { SInput } from '../../../styles/components/SInput'
-import { ICategoryFormType } from '../../../types/category.types'
+import {
+  ICategoryAddFormType,
+  ICategoryEditFormType,
+} from '../../../types/category.types'
 import handleEnterKeyDown from '../../../utils/handleEnterKeyDown.util'
 import { CFContainer, CFForm, CFFormContent } from './categoryForm.styles'
 import { categoryFormValidationSchema } from './categoryForm.validation'
@@ -63,9 +66,9 @@ const CategoryForm: FC<CategoryFormProps> = ({ initialValues, onSubmit }) => {
 export default CategoryForm
 
 interface CategoryFormProps {
-  initialValues: ICategoryFormType
+  initialValues: ICategoryAddFormType | ICategoryEditFormType
   onSubmit: (
-    _values: ICategoryFormType,
-    _helpers: FormikHelpers<ICategoryFormType>
+    _values: ICategoryAddFormType | ICategoryEditFormType,
+    _helpers: FormikHelpers<ICategoryAddFormType | ICategoryEditFormType>
   ) => void
 }
