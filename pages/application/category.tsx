@@ -2,10 +2,12 @@ import Skeleton from '@mui/material/Skeleton'
 import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 
+import { SelectChangeEvent } from '@mui/material'
 import { FormikHelpers } from 'formik'
 import CategoryForm from '../../components/forms/category/CategoryForm.comp'
 import PaginationController from '../../components/paginationController/PaginationController.comp'
 import SearchInput from '../../components/searchInput/SearchInput.comp'
+import SortMenu from '../../components/sortMenu/SortMenu.comp'
 import { handleCloseForm, handleOpenForm } from '../../layout/Dashboard.layout'
 import { SButton } from '../../styles/components/SButton'
 import {
@@ -39,6 +41,7 @@ const CategoryPage = () => {
   const [pageNumber, setPageNumber] = useState<number>(1)
   const [name, setName] = useState<string>('')
   const [url, setUrl] = useState<string>('')
+  const [sortedBy, setSortedBy] = useState('name')
 
   const { data, isLoading, mutate } = useSWR(url)
 
@@ -59,6 +62,9 @@ const CategoryPage = () => {
   }
 
   const _handleSearch = (text: string) => setName(text)
+
+  const _handleSortByChange = (event: SelectChangeEvent) =>
+    setSortedBy(event.target.value)
 
   const _handleCreateCategory = async (
     values: ICategoryAddFormType | ICategoryEditFormType,
@@ -104,15 +110,19 @@ const CategoryPage = () => {
       appendQueryToURL('/category', {
         pageNumber,
         name,
+        sortedBy,
         pageSize: PAGE_SIZE,
       })
     )
-  }, [pageNumber, name])
+  }, [pageNumber, name, sortedBy])
 
   return (
     <CategoryContainer>
       <CategoryHeader>
-        <SearchInput handleSearch={_handleSearch} />
+        <div style={{ display: 'flex' }}>
+          <SearchInput handleSearch={_handleSearch} />
+          <SortMenu handleChange={_handleSortByChange} value={sortedBy} />
+        </div>
         <SButton onClick={() => _handleOpenModal()}>Add Category</SButton>
       </CategoryHeader>
       {isLoading ? (
