@@ -1,15 +1,15 @@
-import Skeleton from '@mui/material/Skeleton'
+import { SelectChangeEvent } from '@mui/material'
+import { FormikHelpers } from 'formik'
 import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 
-import { SelectChangeEvent } from '@mui/material'
-import { FormikHelpers } from 'formik'
 import CategoryForm from '../../components/forms/category/CategoryForm.comp'
 import PaginationController from '../../components/paginationController/PaginationController.comp'
 import SearchInput from '../../components/searchInput/SearchInput.comp'
 import SortMenu from '../../components/sortMenu/SortMenu.comp'
 import { handleCloseForm, handleOpenForm } from '../../layout/Dashboard.layout'
 import { SButton } from '../../styles/components/SButton'
+import { SLoader } from '../../styles/components/SLoader'
 import {
   STable,
   STableBody,
@@ -125,70 +125,61 @@ const CategoryPage = () => {
         </div>
         <SButton onClick={() => _handleOpenModal()}>Add Category</SButton>
       </CategoryHeader>
-      {isLoading ? (
-        <Skeleton
-          variant="rectangular"
-          animation="wave"
-          style={{ height: '100%' }}
-        />
-      ) : (
-        <CategoryContent>
-          <STableContainer>
-            <STable aria-label="simple table">
-              <STableHead>
-                <STableRow>
-                  <STableCell>Name</STableCell>
-                  <STableCell>Description</STableCell>
-                  <STableCell align="right">Author</STableCell>
-                  <STableCell align="right">Actions</STableCell>
-                </STableRow>
-              </STableHead>
-              <STableBody>
-                {data?.document?.map(
-                  (row: ICategoryInterface, index: number) => (
-                    <STableRow
-                      key={row._id}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      <CategoryContent loading={+isLoading}>
+        <STableContainer>
+          <STable aria-label="simple table">
+            <STableHead>
+              <STableRow>
+                <STableCell>Name</STableCell>
+                <STableCell>Description</STableCell>
+                <STableCell align="right">Author</STableCell>
+                <STableCell align="right">Actions</STableCell>
+              </STableRow>
+            </STableHead>
+            <STableBody>
+              {data?.document?.map((row: ICategoryInterface, index: number) => (
+                <STableRow
+                  key={row._id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <STableCell component="th" scope="row">
+                    {row.name}
+                  </STableCell>
+                  <STableCell>{row.description}</STableCell>
+                  <STableCell align="right">{row?.author?.username}</STableCell>
+                  <STableCell align="right">
+                    <SButton
+                      onClick={() => {
+                        _handleOpenModal(row)
+                      }}
+                      disabled={isLoading}
                     >
-                      <STableCell component="th" scope="row">
-                        {row.name}
-                      </STableCell>
-                      <STableCell>{row.description}</STableCell>
-                      <STableCell align="right">
-                        {row?.author?.username}
-                      </STableCell>
-                      <STableCell align="right">
-                        <SButton
-                          onClick={() => {
-                            _handleOpenModal(row)
-                          }}
-                        >
-                          Edit
-                        </SButton>
-                        <SButton
-                          color_type="danger"
-                          onClick={() => {
-                            _handleDeleteCategory(row._id, index)
-                          }}
-                        >
-                          Delete
-                        </SButton>
-                      </STableCell>
-                    </STableRow>
-                  )
-                )}
-              </STableBody>
-            </STable>
-          </STableContainer>
-          <PaginationController
-            pageNumber={pageNumber}
-            pageSize={+PAGE_SIZE}
-            totalRecords={data?.pagination?.totalRecords}
-            handleNext={() => _handlePageChange()}
-            handlePrev={() => _handlePageChange(true)}
-          />
-        </CategoryContent>
-      )}
+                      Edit
+                    </SButton>
+                    <SButton
+                      color_type="danger"
+                      onClick={() => {
+                        _handleDeleteCategory(row._id, index)
+                      }}
+                      disabled={isLoading}
+                    >
+                      Delete
+                    </SButton>
+                  </STableCell>
+                </STableRow>
+              ))}
+            </STableBody>
+          </STable>
+        </STableContainer>
+        <PaginationController
+          pageNumber={pageNumber}
+          pageSize={+PAGE_SIZE}
+          totalRecords={data?.pagination?.totalRecords}
+          handleNext={() => _handlePageChange()}
+          handlePrev={() => _handlePageChange(true)}
+        />
+        {isLoading ? <SLoader /> : null}
+      </CategoryContent>
     </CategoryContainer>
   )
 }

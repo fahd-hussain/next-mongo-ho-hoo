@@ -11,7 +11,6 @@ const SortMenu: FC<SortMenuProps> = ({ handleChange, value }) => {
       <InputLabel id="sort-menu-dropdown">Sort By</InputLabel>
       <Select
         labelId="sort-menu-dropdown"
-        id="sort-menu-dropdown"
         value={value}
         onChange={handleChange}
         label="Sort By"

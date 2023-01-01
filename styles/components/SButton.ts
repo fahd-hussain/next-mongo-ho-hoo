@@ -2,6 +2,7 @@ import { Button } from '@mui/material'
 import { css, styled } from '@mui/system'
 import {
   danger,
+  gray100,
   primary,
   warning,
   white,
@@ -15,6 +16,10 @@ export const SButton = styled(Button)<SButtonProps>`
   &:hover {
     color: ${({ color_type }) => _handleBGColor(color_type)};
     background-color: ${white};
+  }
+
+  &:disabled {
+    color: ${gray100};
   }
 
   ${({ loading }) =>
