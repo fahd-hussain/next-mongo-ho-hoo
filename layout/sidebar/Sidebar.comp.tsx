@@ -1,12 +1,13 @@
-import CategoryIcon from '@mui/icons-material/Category'
-import DashboardIcon from '@mui/icons-material/DashboardTwoTone'
-import LogoutIcon from '@mui/icons-material/LogoutTwoTone'
 import { FC } from 'react'
 
-import Link from 'next/link'
 import { useLogout } from '../../hooks/useLogout.hook'
+import { SHeading } from '../../styles/components/SHeadings'
+import { SLink } from '../../styles/components/SLink'
 import {
+  CategoriesIcon,
   CloseSidebarIcon,
+  DashboardIcon,
+  LogoutIcon,
   OpenSidebarIcon,
   SidebarContainer,
   SidebarList,
@@ -15,7 +16,6 @@ import {
 
 const SideBar: FC<SideBarProps> = ({ hide, handleToggleSidebar }) => {
   const [handleLogout] = useLogout()
-
   return (
     <SidebarContainer hide={hide}>
       <SidebarList>
@@ -24,24 +24,38 @@ const SideBar: FC<SideBarProps> = ({ hide, handleToggleSidebar }) => {
         ) : (
           <CloseSidebarIcon onClick={handleToggleSidebar} />
         )}
-        <Link href="/application">
+        <SLink href="/application">
           <SidebarListItem>
             <DashboardIcon />
-            <span>Dashboard</span>
+            <SHeading hide={+hide} size="lg">
+              Dashboard
+            </SHeading>
           </SidebarListItem>
-        </Link>
-        <Link href="/application/category">
+        </SLink>
+        <SLink href="/application/category">
           <SidebarListItem>
-            <CategoryIcon />
-            <span>Category</span>
+            <CategoriesIcon />
+            <SHeading hide={+hide} size="lg">
+              Categories
+            </SHeading>
           </SidebarListItem>
-        </Link>
+        </SLink>
+        <SLink href="/application/product">
+          <SidebarListItem>
+            <CategoriesIcon />
+            <SHeading hide={+hide} size="lg">
+              Products
+            </SHeading>
+          </SidebarListItem>
+        </SLink>
       </SidebarList>
 
       <SidebarList>
         <SidebarListItem onClick={() => handleLogout()}>
           <LogoutIcon />
-          Logout
+          <SHeading hide={+hide} size="lg">
+            Logout
+          </SHeading>
         </SidebarListItem>
       </SidebarList>
     </SidebarContainer>

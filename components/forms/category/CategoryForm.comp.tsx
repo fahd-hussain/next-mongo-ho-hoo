@@ -2,18 +2,22 @@ import { Formik, FormikHelpers } from 'formik'
 import { FC } from 'react'
 
 import { SButton } from '../../../styles/components/SButton'
+import {
+  SForm,
+  SFormContainer,
+  SFormContent,
+} from '../../../styles/components/SForm'
 import { SInput } from '../../../styles/components/SInput'
 import {
   ICategoryAddFormType,
   ICategoryEditFormType,
 } from '../../../types/category.types'
 import handleEnterKeyDown from '../../../utils/handleEnterKeyDown.util'
-import { CFContainer, CFForm, CFFormContent } from './categoryForm.styles'
 import { categoryFormValidationSchema } from './categoryForm.validation'
 
 const CategoryForm: FC<CategoryFormProps> = ({ initialValues, onSubmit }) => {
   return (
-    <CFContainer>
+    <SFormContainer>
       <Formik
         initialValues={initialValues}
         validationSchema={categoryFormValidationSchema}
@@ -28,8 +32,8 @@ const CategoryForm: FC<CategoryFormProps> = ({ initialValues, onSubmit }) => {
           handleBlur,
           handleSubmit,
         }) => (
-          <CFForm>
-            <CFFormContent>
+          <SForm>
+            <SFormContent>
               <SInput
                 name="name"
                 label="Name"
@@ -52,14 +56,14 @@ const CategoryForm: FC<CategoryFormProps> = ({ initialValues, onSubmit }) => {
                   handleEnterKeyDown(event, handleSubmit)
                 }
               />
-            </CFFormContent>
+            </SFormContent>
             <SButton variant="outlined" onClick={() => handleSubmit()}>
               Submit
             </SButton>
-          </CFForm>
+          </SForm>
         )}
       </Formik>
-    </CFContainer>
+    </SFormContainer>
   )
 }
 

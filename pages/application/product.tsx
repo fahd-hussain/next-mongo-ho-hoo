@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 
 import { useRouter } from 'next/router'
-import CategoryForm from '../../components/forms/category/CategoryForm.comp'
+import ProductForm from '../../components/forms/product/ProductForm.comp'
 import PaginationController from '../../components/paginationController/PaginationController.comp'
 import SearchInput from '../../components/searchInput/SearchInput.comp'
 import SortMenu from '../../components/sortMenu/SortMenu.comp'
@@ -20,15 +20,15 @@ import {
   STableRow,
 } from '../../styles/components/STable'
 import {
-  CategoryContainer,
-  CategoryContent,
-  CategoryHeader,
-} from '../../styles/pages/application/category.styles'
+  ProductContainer,
+  ProductContent,
+  ProductHeader,
+} from '../../styles/pages/application/product.styles'
 import {
-  ICategoryAddFormType,
-  ICategoryEditFormType,
-  ICategoryInterface,
-} from '../../types/category.types'
+  IProductAddFormType,
+  IProductEditFormType,
+  IProductInterface,
+} from '../../types/product.types'
 import appendQueryToURL from '../../utils/appendQueryToURL.util'
 import {
   deleteRequest,
@@ -38,16 +38,18 @@ import {
 
 const PAGE_SIZE = process.env.NEXT_PUBLIC_DATA_SIZE || 10
 
-const CategoryPage = () => {
+const ProductPage = () => {
   const [pageNumber, setPageNumber] = useState<number>(1)
   const [name, setName] = useState<string>('')
   const [url, setUrl] = useState<string>('')
   const [sortedBy, setSortedBy] = useState('name')
 
   const { data, isLoading, mutate } = useSWR(url)
-  const router = useRouter()
+  useSWR('/category?pageNumber=1&sortedBy=name&pageSize=100')
 
-  const initialValues: ICategoryAddFormType = {
+  const { query } = useRouter()
+
+  const initialValues: IProductAddFormType = {
     name: '',
     description: '',
   }
@@ -68,14 +70,16 @@ const CategoryPage = () => {
   const _handleSortByChange = (event: SelectChangeEvent) =>
     setSortedBy(event.target.value)
 
-  const _handleCreateCategory = async (
-    values: ICategoryAddFormType | ICategoryEditFormType,
-    formikHelpers: FormikHelpers<ICategoryAddFormType | ICategoryEditFormType>
+  const _handleCreateProduct = async (
+    values: IProductAddFormType | IProductEditFormType,
+    formikHelpers: FormikHelpers<IProductAddFormType | IProductEditFormType>
   ) => {
-    if ((values as ICategoryEditFormType)._id) {
-      await patchRequest(`/category/${values._id}`, values)
+    // eslint-disable-next-line no-debugger
+    debugger
+    if ((values as IProductEditFormType)._id) {
+      await patchRequest(`/product/${values._id}`, values)
     } else {
-      await postRequest('/category', values)
+      await postRequest('/product', values)
     }
 
     mutate(undefined, {
@@ -85,22 +89,22 @@ const CategoryPage = () => {
     handleCloseForm()
   }
 
-  const _handleOpenModal = (values?: ICategoryInterface) => {
+  const _handleOpenModal = (values?: IProductInterface) => {
     handleOpenForm({
       children: (
-        <CategoryForm
+        <ProductForm
           initialValues={values ? values : initialValues}
-          onSubmit={_handleCreateCategory}
+          onSubmit={_handleCreateProduct}
         />
       ),
-      heading: `${values ? 'Edit' : 'Create'} Category`,
+      heading: `${values ? 'Edit' : 'Create'} Product`,
     })
   }
 
-  const _handleDeleteCategory = async (categoryId: string, index: number) => {
+  const _handleDeleteProduct = async (productId: string, index: number) => {
     if (!data?.document) return
 
-    await deleteRequest(`/category/${categoryId}`)
+    await deleteRequest(`/product/${productId}`)
 
     const updatedData = [...data.document]
     updatedData.splice(index, 1)
@@ -109,29 +113,30 @@ const CategoryPage = () => {
 
   useEffect(() => {
     setUrl(
-      appendQueryToURL('/category', {
+      appendQueryToURL('/product', {
         pageNumber,
         name,
         sortedBy,
         pageSize: PAGE_SIZE,
+        ...(query.category_id && { categoryId: query.category_id }),
       })
     )
 
     return () => {
       handleCloseForm()
     }
-  }, [pageNumber, name, sortedBy])
+  }, [pageNumber, name, sortedBy, query])
 
   return (
-    <CategoryContainer>
-      <CategoryHeader>
+    <ProductContainer>
+      <ProductHeader>
         <div style={{ display: 'flex' }}>
           <SearchInput handleSearch={_handleSearch} />
           <SortMenu handleChange={_handleSortByChange} value={sortedBy} />
         </div>
-        <SButton onClick={() => _handleOpenModal()}>Add Category</SButton>
-      </CategoryHeader>
-      <CategoryContent loading={+isLoading}>
+        <SButton onClick={() => _handleOpenModal()}>Add Product</SButton>
+      </ProductHeader>
+      <ProductContent loading={+isLoading}>
         <STableContainer>
           <STable aria-label="simple table">
             <STableHead>
@@ -143,18 +148,12 @@ const CategoryPage = () => {
               </STableRow>
             </STableHead>
             <STableBody>
-              {data?.document?.map((row: ICategoryInterface, index: number) => (
+              {data?.document?.map((row: IProductInterface, index: number) => (
                 <STableRow
                   key={row._id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <STableCell
-                    component="th"
-                    scope="row"
-                    onClick={() => {
-                      router.push(`/application/product?category_id=${row._id}`)
-                    }}
-                  >
+                  <STableCell component="th" scope="row">
                     {row.name}
                   </STableCell>
                   <STableCell>{row.description}</STableCell>
@@ -171,7 +170,7 @@ const CategoryPage = () => {
                     <SButton
                       color_type="danger"
                       onClick={() => {
-                        _handleDeleteCategory(row._id, index)
+                        _handleDeleteProduct(row._id, index)
                       }}
                       disabled={isLoading}
                     >
@@ -191,9 +190,9 @@ const CategoryPage = () => {
           handlePrev={() => _handlePageChange(true)}
         />
         {isLoading ? <SLoader /> : null}
-      </CategoryContent>
-    </CategoryContainer>
+      </ProductContent>
+    </ProductContainer>
   )
 }
 
-export default CategoryPage
+export default ProductPage

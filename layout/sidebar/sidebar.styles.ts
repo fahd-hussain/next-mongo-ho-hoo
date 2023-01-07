@@ -1,5 +1,8 @@
+import CategoryIcon from '@mui/icons-material/Category'
 import Circle from '@mui/icons-material/Circle'
+import DashboardTwoTone from '@mui/icons-material/DashboardTwoTone'
 import FiberManualRecordTwoTone from '@mui/icons-material/FiberManualRecordTwoTone'
+import LogoutTwoTone from '@mui/icons-material/LogoutTwoTone'
 import { List, ListItem } from '@mui/material'
 import { styled } from '@mui/system'
 import {
@@ -53,4 +56,14 @@ export const OpenSidebarIcon = styled(FiberManualRecordTwoTone)`
 
 export const CloseSidebarIcon = styled(Circle)`
   color: ${white};
+`
+
+export const CategoriesIcon = styled(CategoryIcon)`
+  margin-right: 10px;
+`
+export const DashboardIcon = styled(DashboardTwoTone)`
+  margin-right: 10px;
+`
+export const LogoutIcon = styled(LogoutTwoTone)`
+  margin-right: 10px;
 `

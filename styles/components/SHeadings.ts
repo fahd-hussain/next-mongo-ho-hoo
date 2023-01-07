@@ -2,14 +2,15 @@ import { Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
 export const SHeading = styled(Typography)<SHeadingInterface>`
-  display: block;
   width: 100%;
-
+  transition: 0.3s ease-in-out;
   font-size: ${({ size }) => _handleFontSize(size)};
+  display: ${({ hide }) => (hide ? 'none' : 'block')};
 `
 
 interface SHeadingInterface {
   size?: 'xxl' | 'xl' | 'lg' | 'sm' | 'xs' | 'xxs'
+  hide?: number
 }
 
 const _handleFontSize = (size?: 'xxl' | 'xl' | 'lg' | 'sm' | 'xs' | 'xxs') => {

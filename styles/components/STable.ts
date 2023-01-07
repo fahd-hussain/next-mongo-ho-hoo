@@ -13,4 +13,8 @@ export const STableContainer = styled(TableContainer)`
   height: 100%;
 `
 export const STableHead = styled(TableHead)``
-export const STableRow = styled(TableRow)``
+export const STableRow = styled(TableRow)`
+  &:hover {
+    background-color: #f5f5f5;
+  }
+`
