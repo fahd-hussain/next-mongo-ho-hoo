@@ -1,16 +1,16 @@
 import { SelectChangeEvent } from '@mui/material'
 import { FormikHelpers } from 'formik'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 
-import { useRouter } from 'next/router'
-import ProductForm from '../../components/forms/product/ProductForm.comp'
-import PaginationController from '../../components/paginationController/PaginationController.comp'
-import SearchInput from '../../components/searchInput/SearchInput.comp'
-import SortMenu from '../../components/sortMenu/SortMenu.comp'
-import { handleCloseForm, handleOpenForm } from '../../layout/Dashboard.layout'
-import { SButton } from '../../styles/components/SButton'
-import { SLoader } from '../../styles/components/SLoader'
+import ProductForm from '../components/forms/product/ProductForm.comp'
+import PaginationController from '../components/paginationController/PaginationController.comp'
+import SearchInput from '../components/searchInput/SearchInput.comp'
+import SortMenu from '../components/sortMenu/SortMenu.comp'
+import { handleCloseForm, handleOpenForm } from '../layout/Dashboard.layout'
+import { SButton } from '../styles/components/SButton'
+import { SLoader } from '../styles/components/SLoader'
 import {
   STable,
   STableBody,
@@ -18,23 +18,23 @@ import {
   STableContainer,
   STableHead,
   STableRow,
-} from '../../styles/components/STable'
+} from '../styles/components/STable'
 import {
   ProductContainer,
   ProductContent,
   ProductHeader,
-} from '../../styles/pages/application/product.styles'
+} from '../styles/pages/product.styles'
 import {
   IProductAddFormType,
   IProductEditFormType,
   IProductInterface,
-} from '../../types/product.types'
-import appendQueryToURL from '../../utils/appendQueryToURL.util'
+} from '../types/product.types'
+import appendQueryToURL from '../utils/appendQueryToURL.util'
 import {
   deleteRequest,
   patchRequest,
   postRequest,
-} from '../../utils/requestHandler.util'
+} from '../utils/requestHandler.util'
 
 const PAGE_SIZE = process.env.NEXT_PUBLIC_DATA_SIZE || 10
 

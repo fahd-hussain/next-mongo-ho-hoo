@@ -35,7 +35,7 @@ export const useLogin = (): [
             type: 'login',
             token,
           })
-          replace('/application')
+          replace('/')
         }
       } catch (error: any) {
         setError(error.message ? error.message : 'Something went wrong')

@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 
 import { useRouter } from 'next/router'
-import CategoryForm from '../../components/forms/category/CategoryForm.comp'
-import PaginationController from '../../components/paginationController/PaginationController.comp'
-import SearchInput from '../../components/searchInput/SearchInput.comp'
-import SortMenu from '../../components/sortMenu/SortMenu.comp'
-import { handleCloseForm, handleOpenForm } from '../../layout/Dashboard.layout'
-import { SButton } from '../../styles/components/SButton'
-import { SLoader } from '../../styles/components/SLoader'
+import CategoryForm from '../components/forms/category/CategoryForm.comp'
+import PaginationController from '../components/paginationController/PaginationController.comp'
+import SearchInput from '../components/searchInput/SearchInput.comp'
+import SortMenu from '../components/sortMenu/SortMenu.comp'
+import { handleCloseForm, handleOpenForm } from '../layout/Dashboard.layout'
+import { SButton } from '../styles/components/SButton'
+import { SLoader } from '../styles/components/SLoader'
 import {
   STable,
   STableBody,
@@ -18,23 +18,23 @@ import {
   STableContainer,
   STableHead,
   STableRow,
-} from '../../styles/components/STable'
+} from '../styles/components/STable'
 import {
   CategoryContainer,
   CategoryContent,
   CategoryHeader,
-} from '../../styles/pages/application/category.styles'
+} from '../styles/pages/category.styles'
 import {
   ICategoryAddFormType,
   ICategoryEditFormType,
   ICategoryInterface,
-} from '../../types/category.types'
-import appendQueryToURL from '../../utils/appendQueryToURL.util'
+} from '../types/category.types'
+import appendQueryToURL from '../utils/appendQueryToURL.util'
 import {
   deleteRequest,
   patchRequest,
   postRequest,
-} from '../../utils/requestHandler.util'
+} from '../utils/requestHandler.util'
 
 const PAGE_SIZE = process.env.NEXT_PUBLIC_DATA_SIZE || 10
 
@@ -152,7 +152,7 @@ const CategoryPage = () => {
                     component="th"
                     scope="row"
                     onClick={() => {
-                      router.push(`/application/product?category_id=${row._id}`)
+                      router.push(`/product?category_id=${row._id}`)
                     }}
                   >
                     {row.name}

@@ -1,16 +1,15 @@
-import { Form, Formik, FormikHelpers } from 'formik'
+import { Formik, FormikHelpers } from 'formik'
 import { FC, KeyboardEvent } from 'react'
 
 import { SButton } from '../../../styles/components/SButton'
+import {
+  SForm,
+  SFormContainer,
+  SFormContent,
+} from '../../../styles/components/SForm'
+import { SInput } from '../../../styles/components/SInput'
 import { SLoader } from '../../../styles/components/SLoader'
 import { ILoginPayloadProps } from '../../../types/authentication.types'
-import {
-  ALFContainer,
-  ALFInput,
-  ALFInputBody,
-  ALFInputContainer,
-  ALFInputHeader,
-} from './loginForm.styles'
 import { loginFormValidationSchema } from './loginForm.validations'
 
 const LoginForm: FC<LoginFormProps> = ({
@@ -30,78 +29,72 @@ const LoginForm: FC<LoginFormProps> = ({
   }
 
   return (
-    <ALFContainer>
-      <ALFInputContainer>
-        <ALFInputHeader>Login</ALFInputHeader>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={loginFormValidationSchema}
-          onSubmit={onSubmit}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-          }) => (
-            <Form>
-              <ALFInputBody>
-                <ALFInput
-                  className="_login_form_body_input"
-                  name="username"
-                  label="Username"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.username}
-                  error={Boolean(errors.username && touched.username)}
-                  helperText={
-                    errors.username && touched.username ? errors.username : ''
-                  }
-                  autoFocus
-                  variant="filled"
+    <SFormContainer>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={loginFormValidationSchema}
+        onSubmit={onSubmit}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+        }) => (
+          <SForm>
+            <SFormContent>
+              <SInput
+                name="username"
+                label="Username"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.username}
+                error={Boolean(errors.username && touched.username)}
+                helperText={
+                  errors.username && touched.username ? errors.username : ''
+                }
+                autoFocus
+                variant="filled"
+              />
+              <SInput
+                name="password"
+                label="Password"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+                error={Boolean(errors.password && touched.password)}
+                helperText={
+                  errors.password && touched.password ? errors.password : ''
+                }
+                type="password"
+                variant="filled"
+                onKeyDownCapture={(event) =>
+                  _handleEnterKeyDown(event, handleSubmit)
+                }
+              />
+            </SFormContent>
+            <SButton
+              variant="outlined"
+              onClick={() => handleSubmit()}
+              disabled={isLoading}
+              loading={+isLoading}
+            >
+              Login{' '}
+              {isLoading ? (
+                <SLoader
+                  size={20}
+                  style={{
+                    margin: '0px 20px',
+                  }}
                 />
-                <ALFInput
-                  className="_login_form_body_input"
-                  name="password"
-                  label="Password"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                  error={Boolean(errors.password && touched.password)}
-                  helperText={
-                    errors.password && touched.password ? errors.password : ''
-                  }
-                  type="password"
-                  variant="filled"
-                  onKeyDownCapture={(event) =>
-                    _handleEnterKeyDown(event, handleSubmit)
-                  }
-                />
-                <SButton
-                  variant="outlined"
-                  className="_Login_form_body_submit_btn"
-                  onClick={() => handleSubmit()}
-                  disabled={isLoading}
-                  loading={+isLoading}
-                >
-                  Submit{' '}
-                  {isLoading ? (
-                    <SLoader
-                      size={20}
-                      style={{
-                        margin: '0px 20px',
-                      }}
-                    />
-                  ) : null}
-                </SButton>
-              </ALFInputBody>
-            </Form>
-          )}
-        </Formik>
-      </ALFInputContainer>
-    </ALFContainer>
+              ) : null}
+            </SButton>
+          </SForm>
+        )}
+      </Formik>
+    </SFormContainer>
   )
 }
 

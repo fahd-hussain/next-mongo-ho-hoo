@@ -15,7 +15,7 @@ export const useLogout = (): [() => Promise<any>, boolean] => {
     setLoading(true)
     removeCookie('token')
     dispatch({ type: 'logout' })
-    replace('/authentication/login')
+    replace('/authentication')
     setLoading(false)
   }
 

@@ -24,7 +24,7 @@ const SideBar: FC<SideBarProps> = ({ hide, handleToggleSidebar }) => {
         ) : (
           <CloseSidebarIcon onClick={handleToggleSidebar} />
         )}
-        <SLink href="/application">
+        <SLink href="/">
           <SidebarListItem>
             <DashboardIcon />
             <SHeading hide={+hide} size="lg">
@@ -32,7 +32,7 @@ const SideBar: FC<SideBarProps> = ({ hide, handleToggleSidebar }) => {
             </SHeading>
           </SidebarListItem>
         </SLink>
-        <SLink href="/application/category">
+        <SLink href="/category">
           <SidebarListItem>
             <CategoriesIcon />
             <SHeading hide={+hide} size="lg">
@@ -40,7 +40,7 @@ const SideBar: FC<SideBarProps> = ({ hide, handleToggleSidebar }) => {
             </SHeading>
           </SidebarListItem>
         </SLink>
-        <SLink href="/application/product">
+        <SLink href="/product">
           <SidebarListItem>
             <CategoriesIcon />
             <SHeading hide={+hide} size="lg">

@@ -26,7 +26,12 @@ const DashboardLayout: FC<DashboardLayoutProps> = ({ children }) => {
   const _handleToggleSidebar = () => setHide((prevState) => !prevState)
 
   if (!isAuthenticated || pathname.includes('/authentication')) {
-    return <>{children}</>
+    return (
+      <DashboardContainer>
+        {children}
+        <FormBar ref={(ref) => (cFormBarRef = ref)} />
+      </DashboardContainer>
+    )
   }
 
   return (
