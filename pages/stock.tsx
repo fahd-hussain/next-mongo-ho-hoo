@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 
-import ProductForm from '../components/forms/product/ProductForm.comp'
+import StockForm from '../components/forms/stock/StockForm.comp'
 import PaginationController from '../components/paginationController/PaginationController.comp'
 import SearchInput from '../components/searchInput/SearchInput.comp'
 import SortMenu from '../components/sortMenu/SortMenu.comp'
@@ -20,15 +20,15 @@ import {
   STableRow,
 } from '../styles/components/STable'
 import {
-  ProductContainer,
-  ProductContent,
-  ProductHeader,
-} from '../styles/pages/product.styles'
+  StockContainer,
+  StockContent,
+  StockHeader,
+} from '../styles/pages/stock.styles'
 import {
-  IProductAddFormType,
-  IProductEditFormType,
-  IProductInterface,
-} from '../types/product.types'
+  IStockAddFormType,
+  IStockEditFormType,
+  IStockInterface,
+} from '../types/stock.types'
 import appendQueryToURL from '../utils/appendQueryToURL.util'
 import {
   deleteRequest,
@@ -38,20 +38,19 @@ import {
 
 const PAGE_SIZE = process.env.NEXT_PUBLIC_DATA_SIZE || 10
 
-const ProductPage = () => {
+const StockPage = () => {
   const [pageNumber, setPageNumber] = useState<number>(1)
   const [name, setName] = useState<string>('')
   const [url, setUrl] = useState<string>('')
   const [sortedBy, setSortedBy] = useState('name')
 
   const { data, isLoading, mutate } = useSWR(url)
-  useSWR('/category?pageNumber=1&sortedBy=name&pageSize=100')
+  useSWR('/product?pageNumber=1&sortedBy=name&pageSize=100')
+  const { query } = useRouter()
 
-  const { query, push } = useRouter()
-
-  const initialValues: IProductAddFormType = {
-    name: '',
-    description: '',
+  const initialValues: IStockAddFormType = {
+    unit: 0,
+    unitPrice: 0,
   }
 
   const _handlePageChange = (prev?: boolean) => {
@@ -70,14 +69,14 @@ const ProductPage = () => {
   const _handleSortByChange = (event: SelectChangeEvent) =>
     setSortedBy(event.target.value)
 
-  const _handleCreateProduct = async (
-    values: IProductAddFormType | IProductEditFormType,
-    formikHelpers: FormikHelpers<IProductAddFormType | IProductEditFormType>
+  const _handleCreateStock = async (
+    values: IStockAddFormType | IStockEditFormType,
+    formikHelpers: FormikHelpers<IStockAddFormType | IStockEditFormType>
   ) => {
-    if ((values as IProductEditFormType)._id) {
-      await patchRequest(`/product/${values._id}`, values)
+    if ((values as IStockEditFormType)._id) {
+      await patchRequest(`/stock/${values._id}`, values)
     } else {
-      await postRequest('/product', values)
+      await postRequest('/stock', values)
     }
 
     mutate(undefined, {
@@ -87,22 +86,22 @@ const ProductPage = () => {
     handleCloseForm()
   }
 
-  const _handleOpenModal = (values?: IProductInterface) => {
+  const _handleOpenModal = (values?: IStockInterface) => {
     handleOpenForm({
       children: (
-        <ProductForm
+        <StockForm
           initialValues={values ? values : initialValues}
-          onSubmit={_handleCreateProduct}
+          onSubmit={_handleCreateStock}
         />
       ),
-      heading: `${values ? 'Edit' : 'Create'} Product`,
+      heading: `${values ? 'Edit' : 'Create'} Stock`,
     })
   }
 
-  const _handleDeleteProduct = async (productId: string, index: number) => {
+  const _handleDeleteStock = async (stockId: string, index: number) => {
     if (!data?.document) return
 
-    await deleteRequest(`/product/${productId}`)
+    await deleteRequest(`/stock/${stockId}`)
 
     const updatedData = [...data.document]
     updatedData.splice(index, 1)
@@ -111,12 +110,12 @@ const ProductPage = () => {
 
   useEffect(() => {
     setUrl(
-      appendQueryToURL('/product', {
+      appendQueryToURL('/stock', {
         pageNumber,
         name,
         sortedBy,
         pageSize: PAGE_SIZE,
-        ...(query.category_id && { categoryId: query.category_id }),
+        ...(query.product_id && { productId: query.product_id }),
       })
     )
 
@@ -126,44 +125,38 @@ const ProductPage = () => {
   }, [pageNumber, name, sortedBy, query])
 
   return (
-    <ProductContainer>
-      <ProductHeader>
+    <StockContainer>
+      <StockHeader>
         <div style={{ display: 'flex' }}>
           <SearchInput handleSearch={_handleSearch} />
           <SortMenu handleChange={_handleSortByChange} value={sortedBy} />
         </div>
-        <SButton onClick={() => _handleOpenModal()}>Add Product</SButton>
-      </ProductHeader>
-      <ProductContent loading={+isLoading}>
+        <SButton onClick={() => _handleOpenModal()}>Add Stock</SButton>
+      </StockHeader>
+      <StockContent loading={+isLoading}>
         <STableContainer>
           <STable aria-label="simple table">
             <STableHead>
               <STableRow>
-                <STableCell>Name</STableCell>
-                <STableCell>Description</STableCell>
-                <STableCell align="right">Author</STableCell>
-                <STableCell align="right">Avg. Price</STableCell>
+                <STableCell>Product</STableCell>
+                <STableCell>Unit</STableCell>
+                <STableCell>Unit Price</STableCell>
+                <STableCell>Price</STableCell>
                 <STableCell align="right">Actions</STableCell>
               </STableRow>
             </STableHead>
             <STableBody>
-              {data?.document?.map((row: IProductInterface, index: number) => (
+              {data?.document?.map((row: IStockInterface, index: number) => (
                 <STableRow
                   key={row._id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <STableCell
-                    component="th"
-                    scope="row"
-                    onClick={() => {
-                      push(`/stock?product_id=${row._id}`)
-                    }}
-                  >
-                    {row.name}
+                  <STableCell component="th" scope="row">
+                    {row?.product?.name ?? ''}
                   </STableCell>
-                  <STableCell>{row.description}</STableCell>
-                  <STableCell align="right">{row?.author?.username}</STableCell>
-                  <STableCell align="right">{row?.averagePrice}</STableCell>
+                  <STableCell>{row.unit}</STableCell>
+                  <STableCell>{row.unitPrice}</STableCell>
+                  <STableCell>{row.price}</STableCell>
                   <STableCell align="right">
                     <SButton
                       onClick={() => {
@@ -176,7 +169,7 @@ const ProductPage = () => {
                     <SButton
                       color_type="danger"
                       onClick={() => {
-                        _handleDeleteProduct(row._id, index)
+                        _handleDeleteStock(row._id, index)
                       }}
                       disabled={isLoading}
                     >
@@ -196,9 +189,9 @@ const ProductPage = () => {
           handlePrev={() => _handlePageChange(true)}
         />
         {isLoading ? <SLoader /> : null}
-      </ProductContent>
-    </ProductContainer>
+      </StockContent>
+    </StockContainer>
   )
 }
 
-export default ProductPage
+export default StockPage

@@ -1,5 +1,6 @@
 import { FC, createContext, useEffect, useReducer } from 'react'
 import { useCookies } from 'react-cookie'
+import useSWR from 'swr'
 
 import {
   AuthContextType,
@@ -12,6 +13,7 @@ export const AuthContext = createContext<AuthContextType | null>(null)
 export const AuthProvider: FC<IAuthProviderType> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, authInitialState)
   const [cookie] = useCookies(['token'])
+  useSWR('/authentication/profile')
 
   useEffect(() => {
     if (cookie.token) {
@@ -20,8 +22,7 @@ export const AuthProvider: FC<IAuthProviderType> = ({ children }) => {
         token: cookie.token,
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [cookie.token])
 
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>

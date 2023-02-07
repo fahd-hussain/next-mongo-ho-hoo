@@ -1,12 +1,11 @@
 import { FC } from 'react'
 
+import sidebarItems from '../../config/sidebarItems'
 import { useLogout } from '../../hooks/useLogout.hook'
 import { SHeading } from '../../styles/components/SHeadings'
 import { SLink } from '../../styles/components/SLink'
 import {
-  CategoriesIcon,
   CloseSidebarIcon,
-  DashboardIcon,
   LogoutIcon,
   OpenSidebarIcon,
   SidebarContainer,
@@ -24,34 +23,20 @@ const SideBar: FC<SideBarProps> = ({ hide, handleToggleSidebar }) => {
         ) : (
           <CloseSidebarIcon onClick={handleToggleSidebar} />
         )}
-        <SLink href="/">
-          <SidebarListItem>
-            <DashboardIcon />
-            <SHeading hide={+hide} size="lg">
-              Dashboard
-            </SHeading>
-          </SidebarListItem>
-        </SLink>
-        <SLink href="/category">
-          <SidebarListItem>
-            <CategoriesIcon />
-            <SHeading hide={+hide} size="lg">
-              Categories
-            </SHeading>
-          </SidebarListItem>
-        </SLink>
-        <SLink href="/product">
-          <SidebarListItem>
-            <CategoriesIcon />
-            <SHeading hide={+hide} size="lg">
-              Products
-            </SHeading>
-          </SidebarListItem>
-        </SLink>
+        {sidebarItems.map(({ id, link, name, Icon }) => (
+          <SLink href={link} key={id}>
+            <SidebarListItem hide={+hide}>
+              <Icon style={{ marginRight: '10px' }} />
+              <SHeading hide={+hide} size="lg">
+                {name}
+              </SHeading>
+            </SidebarListItem>
+          </SLink>
+        ))}
       </SidebarList>
 
       <SidebarList>
-        <SidebarListItem onClick={() => handleLogout()}>
+        <SidebarListItem onClick={() => handleLogout()} hide={+hide}>
           <LogoutIcon />
           <SHeading hide={+hide} size="lg">
             Logout

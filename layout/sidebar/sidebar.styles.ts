@@ -1,6 +1,4 @@
-import CategoryIcon from '@mui/icons-material/Category'
 import Circle from '@mui/icons-material/Circle'
-import DashboardTwoTone from '@mui/icons-material/DashboardTwoTone'
 import FiberManualRecordTwoTone from '@mui/icons-material/FiberManualRecordTwoTone'
 import LogoutTwoTone from '@mui/icons-material/LogoutTwoTone'
 import { List, ListItem } from '@mui/material'
@@ -36,11 +34,12 @@ export const SidebarList = styled(List)`
   padding: 20px;
 `
 
-export const SidebarListItem = styled(ListItem)`
+export const SidebarListItem = styled(ListItem)<{ hide: number }>`
   height: 46px;
   min-width: 46px;
   background: ${primary};
   color: ${bodyBg};
+  padding: ${({ hide }) => (hide ? '8px 0px;' : '8px 16px;')};
 
   &:hover {
     box-sizing: border-box;
@@ -58,12 +57,6 @@ export const CloseSidebarIcon = styled(Circle)`
   color: ${white};
 `
 
-export const CategoriesIcon = styled(CategoryIcon)`
-  margin-right: 10px;
-`
-export const DashboardIcon = styled(DashboardTwoTone)`
-  margin-right: 10px;
-`
 export const LogoutIcon = styled(LogoutTwoTone)`
   margin-right: 10px;
 `

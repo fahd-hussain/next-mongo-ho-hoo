@@ -21,18 +21,18 @@ const MyApp = (props: MyAppProps) => {
   return (
     <CacheProvider value={emotionCache}>
       <ThemeProvider theme={lightTheme}>
-        <AuthProvider>
-          <DashboardLayout>
-            <CssBaseline />
-            <SWRConfig
-              value={{
-                fetcher: getRequest,
-              }}
-            >
+        <SWRConfig
+          value={{
+            fetcher: getRequest,
+          }}
+        >
+          <AuthProvider>
+            <DashboardLayout>
+              <CssBaseline />
               <Component {...pageProps} />
-            </SWRConfig>
-          </DashboardLayout>
-        </AuthProvider>
+            </DashboardLayout>
+          </AuthProvider>
+        </SWRConfig>
       </ThemeProvider>
     </CacheProvider>
   )
