@@ -1,5 +1,6 @@
 import Circle from '@mui/icons-material/Circle'
 import FiberManualRecordTwoTone from '@mui/icons-material/FiberManualRecordTwoTone'
+import LogoutTwoTone from '@mui/icons-material/LogoutTwoTone'
 import { List, ListItem } from '@mui/material'
 import { styled } from '@mui/system'
 import {
@@ -9,6 +10,7 @@ import {
   gray900,
   primary,
   primaryDark,
+  white,
 } from '../../constant/css-variables.const'
 
 export const SidebarContainer = styled('aside')<{ hide: boolean }>`
@@ -20,6 +22,9 @@ export const SidebarContainer = styled('aside')<{ hide: boolean }>`
   border-radius: ${borderRadiusSm};
   background-color: ${primary};
   text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   width: ${({ hide }) => (hide ? '5vw' : '20vw')};
 `
@@ -29,11 +34,12 @@ export const SidebarList = styled(List)`
   padding: 20px;
 `
 
-export const SidebarListItem = styled(ListItem)`
+export const SidebarListItem = styled(ListItem)<{ hide: number }>`
   height: 46px;
   min-width: 46px;
   background: ${primary};
   color: ${bodyBg};
+  padding: ${({ hide }) => (hide ? '8px 0px;' : '8px 16px;')};
 
   &:hover {
     box-sizing: border-box;
@@ -44,11 +50,13 @@ export const SidebarListItem = styled(ListItem)`
 `
 
 export const OpenSidebarIcon = styled(FiberManualRecordTwoTone)`
-  color: white;
-  margin: 10px 10px 0px 0px;
+  color: ${white};
 `
 
 export const CloseSidebarIcon = styled(Circle)`
-  color: white;
-  margin: 10px 10px 0px 0px;
+  color: ${white};
+`
+
+export const LogoutIcon = styled(LogoutTwoTone)`
+  margin-right: 10px;
 `
